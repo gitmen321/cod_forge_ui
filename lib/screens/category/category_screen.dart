@@ -1,3 +1,4 @@
+import 'package:cod_forge_ui/services/category_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../providers/category_provider.dart';
@@ -37,16 +38,63 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
     final categoryState = ref.watch(categoryProvider);
 
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         title: const Text("Categories"),
         centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 243, 243, 243),
       ),
       body: categoryState.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text("Error: $err")),
+        loading: () => const Center(
+          child: CircularProgressIndicator(
+            color: Color.fromARGB(255, 52, 140, 54),
+            strokeWidth: 6,
+          ),
+        ),
+
+        error: (err, _) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 12),
+              const Text(
+                "Something went wrong!",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+              ),
+              const SizedBox(height: 4),
+              Text('$err'),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                style:  ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 52, 140, 54),
+                ),
+                onPressed: () {
+                  ref.refresh(categoryProvider);
+                },
+                child: const Text("Retry", style: TextStyle(
+                  color: Colors.black
+                ),),
+              )
+            ],
+          ),
+        ),
+
         data: (state) {
           if (state.categories.isEmpty) {
-            return const Center(child: Text("No categories available."));
+            return const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.inbox, size: 48, color: Colors.grey),
+                  SizedBox(height: 12),
+                  Text(
+                    "No categories available.",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            );
           }
 
           return CustomScrollView(
@@ -57,16 +105,16 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                 sliver: SliverGrid(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) {
-                      final category = state.categories[index];
+                      final category = CategoryService.allCategories[index];
                       return CategoryTile(category: category);
                     },
-                    childCount: state.categories.length,
+                    childCount: CategoryService.allCategories.length,
                   ),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 12,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: getCrossAxisCount(context),
+                    mainAxisSpacing: 8,
                     crossAxisSpacing: 12,
-                    childAspectRatio: 3 / 2,
+                    childAspectRatio: 4 / 3.5,
                   ),
                 ),
               ),
@@ -90,5 +138,13 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
         },
       ),
     );
+  }
+
+  int getCrossAxisCount(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width >= 1000) return 5;
+    if (width >= 700) return 4;
+    if (width >= 500) return 3;
+    return 2;
   }
 }

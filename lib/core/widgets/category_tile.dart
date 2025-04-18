@@ -1,7 +1,6 @@
 import 'package:cod_forge_ui/models/category.dart';
 import 'package:flutter/material.dart';
 
-
 class CategoryTile extends StatelessWidget {
   final CategoryModel category;
 
@@ -9,20 +8,41 @@ class CategoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+
     return Container(
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: Colors.green.shade50,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.green.shade200),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+        boxShadow: [
+          BoxShadow(
+            // ignore: deprecated_member_use
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 4,
+            offset: const Offset(2, 2),
+          ),
+        ],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.network(category.imageUrl, height: 48, width: 48),
-          const SizedBox(height: 8),
+          Image.network(
+            category.imageUrl,
+            height: isTablet ? 64 : 48,
+            width: isTablet ? 64 : 48,
+            fit: BoxFit.contain,
+          ),
+          const SizedBox(height: 12),
           Text(
             category.name,
-            style: const TextStyle(fontWeight: FontWeight.w600),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: isTablet ? 16 : 14,
+            ),
           ),
         ],
       ),

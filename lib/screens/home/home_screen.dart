@@ -20,6 +20,14 @@ class _HomeScreenState extends State<HomeScreen> {
     PlaceholderWidget(label: "Profile"),
   ];
 
+  final List<IconData> _icons = [
+    Icons.home,
+    Icons.store,
+    Icons.category,
+    Icons.shopping_cart,
+    Icons.person,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,29 +36,29 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.green,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.store),
-            label: 'Shop',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.category),
-            label: 'Category',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
+        selectedItemColor: const Color.fromARGB(255, 52, 140, 54),
+        backgroundColor: Colors.white,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        items: List.generate(_icons.length, (index) {
+          final isSelected = index == _currentIndex;
+          final icon = Icon(
+            _icons[index],
+            color: isSelected ? Colors.white : Colors.black,
+            size: 24,
+          );
+
+          return BottomNavigationBarItem(
+            icon: isSelected
+                ? CircleAvatar(
+                    backgroundColor:
+                        const Color.fromARGB(255, 52, 140, 54),
+                    child: icon,
+                  )
+                : icon,
+            label: '',
+          );
+        }),
       ),
     );
   }
@@ -70,4 +78,3 @@ class PlaceholderWidget extends StatelessWidget {
     );
   }
 }
-                         
