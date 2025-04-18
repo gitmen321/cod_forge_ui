@@ -1,3 +1,4 @@
+import 'package:cod_forge_ui/core/widgets/custom_loader.dart';
 import 'package:cod_forge_ui/services/category_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,16 +41,16 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
-        title: const Text("Categories"),
+        leading: Icon(Icons.arrow_back_ios_rounded),
+        actions: [Align(alignment: Alignment.center,
+         child: Icon(Icons.notifications_none_rounded,size: 25,weight:30, color: Colors.black ,),),SizedBox(width:10 ,)],
+        title:  Text("Categories", style: TextStyle(fontWeight:FontWeight.bold),),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 243, 243, 243),
       ),
       body: categoryState.when(
         loading: () => const Center(
-          child: CircularProgressIndicator(
-            color: Color.fromARGB(255, 52, 140, 54),
-            strokeWidth: 6,
-          ),
+          child: CustomLoader(),
         ),
 
         error: (err, _) => Center(
@@ -70,6 +71,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                   backgroundColor: Color.fromARGB(255, 52, 140, 54),
                 ),
                 onPressed: () {
+                  // ignore: unused_result
                   ref.refresh(categoryProvider);
                 },
                 child: const Text("Retry", style: TextStyle(
@@ -123,7 +125,7 @@ class _CategoryScreenState extends ConsumerState<CategoryScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: state.isLoadingMore
-                        ? const CircularProgressIndicator(strokeWidth: 2)
+                        ? CustomLoader()
                         : state.hasReachedEnd
                             ? const Text(
                                 "End",

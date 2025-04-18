@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../category/category_screen.dart';
+import 'category/category_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = const [
@@ -21,11 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   final List<IconData> _icons = [
-    Icons.home,
-    Icons.store,
-    Icons.category,
-    Icons.shopping_cart,
-    Icons.person,
+    Icons.home_outlined,
+    Icons.favorite_outline_outlined,
+    Icons.category_outlined,
+    Icons.shopping_cart_outlined,
+    Icons.person_2_outlined,
   ];
 
   @override

@@ -1,7 +1,7 @@
 import 'package:cod_forge_ui/models/category.dart';
 import 'package:cod_forge_ui/services/category_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:cod_forge_ui/models/category_model.dart';
+
 
 final categoryProvider =
     StateNotifierProvider<CategoryNotifier, AsyncValue<CategoryState>>(
@@ -27,13 +27,13 @@ Future<void> _loadInitial() async {
   }
 }
 
-//for errrror testtt:
+//for errrror ui:
 
 // Future<void> _loadInitial() async {
 //   await Future.delayed(const Duration(seconds: 1));
 
-//   state = AsyncValue.data(CategoryState(categories: []));//no category ui 
-//   state = AsyncValue.error("Something went wrong", StackTrace.current);
+//   state = AsyncValue.data(CategoryState(categories: []));    //for empty data uii
+//   // state = AsyncValue.error("Something went wrong", StackTrace.current);
 // }
 
 
